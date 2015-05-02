@@ -60,6 +60,7 @@ ipython_pip_packages:
   - scikit-learn
   - bokeh
   - ipython
+  - terminado
 
 # http and https proxy if needed
 proxy_env: {}
