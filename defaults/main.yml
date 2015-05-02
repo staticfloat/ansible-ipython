@@ -14,15 +14,28 @@ ipython_notebooks:
     notebook_dir:
 
 # list of dependencies
-ipython_packages:
+ipython_yum_packages_yum:
   - gcc
   - gcc-c++
   - gcc-gfortran
   - libpng-devel
   - freetype-devel
   - python-devel
+  - python-pip
   - blas-devel
   - lapack-devel
+  - pandoc
+
+ipython_apt_packages:
+  - gcc
+  - g++
+  - gfortran
+  - libpng-dev
+  - libfreetype6-dev
+  - python-dev
+  - python-pip
+  - libopenblas-dev
+  - liblapack-dev
   - pandoc
 
 # list of pip packages
@@ -46,6 +59,7 @@ ipython_pip_packages:
   - statsmodels
   - scikit-learn
   - bokeh
+  - ipython
 
 # http and https proxy if needed
 proxy_env: {}
@@ -53,5 +67,5 @@ proxy_env: {}
 # CONSTANTS
 
 _ipython:
-  home: /usr
+  home: /usr/local
   users_home: /home

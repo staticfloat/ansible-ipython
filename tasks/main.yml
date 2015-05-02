@@ -1,18 +1,25 @@
 ---
 # This role conains tasks to deploy the iPhyton server
 
-- name: checking notebooks port
-  wait_for: host={{ inventory_hostname }} port={{ item.port }} state=stopped timeout=1
-  with_items: ipython_notebooks
-  tags: check
+# - name: checking notebooks port
+#   wait_for: host={{ inventory_hostname }} port={{ item.port }} state=stopped timeout=1
+#   with_items: ipython_notebooks
+#   tags: check
 
 - name: installing dependencies
   yum: name={{ item }} state=latest
-  with_items: ipython_packages
+  with_items: ipython_yum_packages
   tags: install
+  when: ansible_os_family == "RedHat"
+
+- name: installing dependencies
+  apt: name={{ item }} state=latest
+  with_items: ipython_apt_packages
+  tags: install
+  when: ansible_os_family == "Debian"
 
 - name: installing ipython packages
-  pip: name={{ item }} state=present
+  pip: name={{ item }} state=latest
   with_items: ipython_pip_packages
   environment: proxy_env
   tags: install
@@ -37,12 +44,17 @@
   with_items: ipython_notebooks
   tags: config
 
+- name: creating ipython config directory
+  file: path={{ _ipython.users_home }}/{{ item.user }}/.ipython/profile_{{ item.profile }} state=directory owner={{item.user}} group={{item.group}} mode=0755
+  with_items: ipython_notebooks
+  tags: config
+
 - name: updating ipython configuration
   template: src=ipython_notebook_config.py.j2 dest={{ _ipython.users_home }}/{{ item.user }}/.ipython/profile_{{ item.profile }}/ipython_notebook_config.py owner={{ item.user }} group={{ item.group }} mode=0644 backup=true
   with_items: ipython_notebooks
   tags: config
 
-- name: info
-  pause: prompt="Start IPython Notebook by executing 'sudo -u {{ item.user }} -i ipython notebook --profile={{ item.profile }}', press ENTER to continue"
-  with_items: ipython_notebooks
-  tags: info
+# - name: info
+#   pause: prompt="Start IPython Notebook by executing 'sudo -u {{ item.user }} -i ipython notebook --profile={{ item.profile }}', press ENTER to continue"
+#   with_items: ipython_notebooks
+#   tags: info
