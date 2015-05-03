@@ -2,7 +2,7 @@
 # defaults file for ipython
 
 # ipython notebooks configuration
-# provide a list of { profile, port, user, group, sha1_password, notebook_dir } items
+# provide a list of { profile, port, user, group, sha1_password, notebook_dir, virtualenv } items
 # sha1_password can be empty or generated via:
 #     python -c 'from IPython.lib import passwd; print(passwd("<password>"))'
 ipython_notebooks:
@@ -12,6 +12,7 @@ ipython_notebooks:
     group:
     sha1_password:
     notebook_dir:
+    virtualenv_dir:
 
 # list of dependencies
 ipython_yum_packages_yum:
@@ -22,6 +23,7 @@ ipython_yum_packages_yum:
   - freetype-devel
   - python-devel
   - python-pip
+  - python-virtualenv
   - blas-devel
   - lapack-devel
   - pandoc
@@ -34,6 +36,7 @@ ipython_apt_packages:
   - libfreetype6-dev
   - python-dev
   - python-pip
+  - python-virtualenv
   - libopenblas-dev
   - liblapack-dev
   - pandoc
@@ -59,6 +62,7 @@ ipython_pip_packages:
   - statsmodels
   - scikit-learn
   - bokeh
+  - jsonschema
   - ipython
   - terminado
 

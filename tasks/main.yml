@@ -19,9 +19,17 @@
   when: ansible_os_family == "Debian"
 
 - name: installing ipython packages
-  pip: name={{ item }} state=latest
-  with_items: ipython_pip_packages
+  pip: name={{ item[1] }} state=latest virtualenv={{ item[0].virtualenv_dir }}
+  sudo: yes
+  with_nested:
+    - ipython_notebooks
+    - ipython_pip_packages
   environment: proxy_env
+  tags: install
+
+- name: own virtualenv dirs
+  file: path={{ item.virtualenv_dir }} recurse=yes state=directory owner={{item.user}} group={{item.group}} mode=0755
+  with_items: ipython_notebooks
   tags: install
 
 - name: creating groups
