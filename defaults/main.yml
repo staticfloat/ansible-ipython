@@ -15,7 +15,7 @@ ipython_notebooks:
     virtualenv_dir:
 
 # list of dependencies
-ipython_yum_packages_yum:
+ipython_yum_packages:
   - gcc
   - gcc-c++
   - gcc-gfortran
